@@ -1,6 +1,7 @@
 ﻿
 
 using BahanKiSadi_backend.Model;
+using BahanKiSadi_backend.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace BahanKiSadi_backend.Context
