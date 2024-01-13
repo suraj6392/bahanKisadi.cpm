@@ -1,15 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BahanKiSadi_backend.Context;
+using BahanKiSadi_backend.Model;
+using BahanKiSadi_backend.ViewModel;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BahanKiSadi_backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        [HttpPost(Name = "Register")]
-        public IActionResult Register()
+        private readonly DataContext _dataContext;
+        public AccountController(DataContext dataContext)
         {
-            return null;
+            _dataContext = dataContext;
+        }
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody] DetailsViewModel detailsViewModel)
+        {
+            RegistrationDetails registrationDetails = new RegistrationDetails()
+            {
+                Id = Guid.NewGuid(),
+                Name = detailsViewModel.Name,
+                MiddileName = detailsViewModel.MiddileName,
+                SurName = detailsViewModel.SurName,
+                Address = detailsViewModel.Address,
+                MobileNo = detailsViewModel.MobileNo,
+            };
+            var result = _dataContext.Add(registrationDetails);
+            _dataContext.SaveChanges();
+            return Ok(result);
         }
     }
 }
