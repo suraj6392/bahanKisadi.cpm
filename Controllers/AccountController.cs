@@ -17,18 +17,27 @@ namespace BahanKiSadi_backend.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody] DetailsViewModel detailsViewModel)
         {
-            RegistrationDetails registrationDetails = new RegistrationDetails()
+            try
             {
-                Id = Guid.NewGuid(),
-                Name = detailsViewModel.Name,
-                MiddileName = detailsViewModel.MiddileName,
-                SurName = detailsViewModel.SurName,
-                Address = detailsViewModel.Address,
-                MobileNo = detailsViewModel.MobileNo,
-            };
-            var result = _dataContext.Add(registrationDetails);
-            _dataContext.SaveChanges();
-            return Ok(result);
+                RegistrationDetails registrationDetails = new RegistrationDetails()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = detailsViewModel.Name,
+                    SurName = detailsViewModel.SurName,
+                    Address = detailsViewModel.Address,
+                    MobileNo = detailsViewModel.MobileNo,
+                    Email = detailsViewModel.Email,
+                    Password = detailsViewModel.Password,
+
+                };
+                var result = _dataContext.Add(registrationDetails);
+                _dataContext.SaveChanges();
+                return Ok("Registered Succesfully..");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error registering user", Error = ex.Message });
+            }
         }
     }
 }
