@@ -1,7 +1,9 @@
 ﻿using BahanKiSadi_backend.Context;
 using BahanKiSadi_backend.Helper;
 using BahanKiSadi_backend.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BahanKiSadi_backend.Controllers
 {
@@ -16,6 +18,7 @@ namespace BahanKiSadi_backend.Controllers
             _dataContext = dataContext;
             _configuration = configuration;
         }
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Login([FromBody] User user)
         {
@@ -31,5 +34,13 @@ namespace BahanKiSadi_backend.Controllers
             var gettoken = TokenHelper.GenerateToken(_configuration);
             return Ok(new { detail = details, token = gettoken, message = "User Login Successfully..." });
         }
+        [AllowAnonymous]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetData(string UserId)
+        {
+            return null;
+        }
+
     }
 }
